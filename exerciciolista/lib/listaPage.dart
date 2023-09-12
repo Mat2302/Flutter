@@ -14,22 +14,37 @@ class _MyListaState extends State<MyLista> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: []),
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text(list[index].nome[0]),
-            ),
-            title: Text(list[index].nome),
-            subtitle: Text(list[index].ra.toString()),
-          );
-        },
-        separatorBuilder: (_, __) => Divider(
-          thickness: 2,
+        appBar: AppBar(
+          actions: [],
+          title: Text("Lista de Alunos"),
         ),
-        itemCount: list.length,
-      )
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) => Divider(thickness: 2),
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text(list[index].nome[0]),
+                    ),
+                    title: Text(list[index].nome),
+                    subtitle: Text(list[index].ra.toString()),
+                  );
+                },
+                padding: EdgeInsets.all(7),
+              ),
+              Divider(thickness: 2),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                },
+                child: Text("Voltar"),
+              )
+            ],
+          ),
+        ));
   }
 }
