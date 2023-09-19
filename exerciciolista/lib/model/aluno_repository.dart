@@ -11,8 +11,12 @@ class AlunoRepository {
     _listaAlunos.add(al);
   }
 
+  static void remover(Aluno al) {
+    _listaAlunos.remove(al);
+  }
+
   void imp() {
-    for(var aluno in _listaAlunos) {
+    for (var aluno in _listaAlunos) {
       print(aluno.toString());
     }
   }

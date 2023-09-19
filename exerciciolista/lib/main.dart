@@ -1,3 +1,4 @@
+import 'package:exerciciolista/alteraPage.dart';
 import 'package:exerciciolista/listaPage.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/':(context) => Cadastro(),
-        '/list':(context) => MyLista()
+        '/list':(context) => MyLista(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -1,3 +1,4 @@
+import 'package:exerciciolista/alteraPage.dart';
 import 'package:exerciciolista/model/aluno.dart';
 import 'package:exerciciolista/model/aluno_repository.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,35 @@ class _MyListaState extends State<MyLista> {
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: CircleAvatar(
-                      child: Text(list[index].nome[0]),
-                    ),
-                    title: Text(list[index].nome),
-                    subtitle: Text(list[index].ra.toString()),
-                  );
+                      leading: CircleAvatar(
+                        child: Text(list[index].nome[0]),
+                      ),
+                      title: Text(list[index].nome),
+                      subtitle: Text(list[index].ra.toString()),
+                      trailing: SizedBox(
+                        width: 70,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return MyAltera(list[index], index);
+                                      })
+                                      );
+                                    }, icon: Icon(Icons.edit))),
+                            Expanded(
+                                child: IconButton(
+                                    onPressed: () {
+                                      Aluno al = list[index];
+                                      AlunoRepository.remover(al);
+                                      setState(() {});
+                                    },
+                                    icon: Icon(Icons.delete))),
+                          ],
+                        ),
+                      ));
                 },
                 padding: EdgeInsets.all(7),
               ),

@@ -1,52 +1,31 @@
+import 'package:exerciciolista/model/aluno.dart';
 import 'package:exerciciolista/model/aluno_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'model/aluno.dart';
-
-class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+class MyAltera extends StatefulWidget {
+  Aluno aluno;
+  int indice;
+  MyAltera(this.aluno, this.indice, {super.key});
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<MyAltera> createState() => _MyAlteraState();
 }
 
-class _CadastroState extends State<Cadastro> {
-  int ra = 0;
-  String nome = '';
-  AlunoRepository alRepo = AlunoRepository();
+class _MyAlteraState extends State<MyAltera> {
   TextEditingController campoRa = TextEditingController();
   TextEditingController campoNome = TextEditingController();
+  List list = AlunoRepository.get;
   GlobalKey<FormState> key = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    inicializa();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastro"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/list');
-            },
-            icon: Icon(Icons.list),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+        appBar: AppBar(
+          title: Text("Alterar dados do aluno"),
+        ),
+        body: Column(
           children: [
-            Padding(padding: EdgeInsets.all(40)),
-            SizedBox(child: Image.asset('img/cadeado.png'), height: 200),
-            Padding(padding: EdgeInsets.all(10)),
-            Text(
-              'Cadastro',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 26,
-              ),
-            ),
-            SizedBox(height: 50),
             Form(
               key: key,
               child: Column(
@@ -86,29 +65,27 @@ class _CadastroState extends State<Cadastro> {
                       }
                       return null;
                     },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (key.currentState!.validate()) {
+                        int ra = int.parse(campoRa.text);
+                        String nome = campoNome.text;
+                        Aluno a = new Aluno(ra, nome);
+                        list[widget.indice] = a;
+                      }
+                    },
+                    child: Text("Alterar"),
                   )
                 ],
               ),
             ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                if (key.currentState!.validate()) {
-                  ra = int.parse(campoRa.text);
-                  nome = campoNome.text;
-                  Aluno al = Aluno(ra, nome);
-                  alRepo.adc(al);
-                  alRepo.imp();
-                  setState(() {});
-                  campoRa.clear();
-                  campoNome.clear();
-                }
-              },
-              child: Text("Cadastrar"),
-            )
           ],
-        ),
-      ),
-    );
+        ));
+  }
+
+  void inicializa() {
+    campoRa.text = widget.aluno.ra.toString();
+    campoNome.text = widget.aluno.nome;
   }
 }
