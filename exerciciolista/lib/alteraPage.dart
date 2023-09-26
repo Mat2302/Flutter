@@ -3,6 +3,7 @@ import 'package:exerciciolista/model/aluno_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// ignore: must_be_immutable
 class MyAltera extends StatefulWidget {
   Aluno aluno;
   int indice;
@@ -30,6 +31,7 @@ class _MyAlteraState extends State<MyAltera> {
               key: key,
               child: Column(
                 children: [
+                  SizedBox(height: 10),
                   TextFormField(
                     controller: campoRa,
                     keyboardType: TextInputType.number,
@@ -66,6 +68,7 @@ class _MyAlteraState extends State<MyAltera> {
                       return null;
                     },
                   ),
+                  SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       if (key.currentState!.validate()) {
