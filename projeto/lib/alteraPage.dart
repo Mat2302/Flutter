@@ -16,6 +16,7 @@ class MyAltera extends StatefulWidget {
 
 class _MyAlteraState extends State<MyAltera> {
   TextEditingController campoCod = TextEditingController();
+  TextEditingController campoIdade = TextEditingController();
   TextEditingController campoNome = TextEditingController();
   TextEditingController campoPosicao = TextEditingController();
   List list = JogadoraRepository.get;
@@ -40,7 +41,7 @@ class _MyAlteraState extends State<MyAltera> {
               children: [
                 SizedBox(height: 50),
                 Container(
-                    height: 400,
+                    height: 530,
                     width: 300,
                     padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
                     decoration: BoxDecoration(
@@ -58,6 +59,9 @@ class _MyAlteraState extends State<MyAltera> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Image.asset('img/minasLogo.png',
+                            height: 50, width: 50),
+                            SizedBox(height: 2),
                         Text(
                           "Minas Tênis Clube - Alteração",
                           style: TextStyle(
@@ -78,6 +82,26 @@ class _MyAlteraState extends State<MyAltera> {
                                 style: TextStyle(fontSize: 15),
                                 decoration: InputDecoration(
                                   labelText: 'Código:',
+                                  border: InputBorder.none,
+                                  filled: false,
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return ("O campo deve ser preenchido!");
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 12),
+                              TextFormField(
+                                controller: campoIdade,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                style: TextStyle(fontSize: 15),
+                                decoration: InputDecoration(
+                                  labelText: 'Idade:',
                                   border: InputBorder.none,
                                   filled: false,
                                 ),
@@ -129,12 +153,29 @@ class _MyAlteraState extends State<MyAltera> {
                                   onPressed: () {
                                     if (key.currentState!.validate()) {
                                       int cod = int.parse(campoCod.text);
+                                      int idade = int.parse(campoIdade.text);
                                       String nome = campoNome.text;
                                       String posicao = campoPosicao.text;
-                                      Jogadora jgr =
-                                          new Jogadora(cod, nome, posicao);
+                                      Jogadora jgr = new Jogadora(
+                                          cod, idade, nome, posicao);
                                       list[widget.indice] = jgr;
                                     }
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Atenção"),
+                                            content: Text(
+                                                "Alteração feita com sucesso!"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Fechar"))
+                                            ],
+                                          );
+                                        });
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -157,6 +198,7 @@ class _MyAlteraState extends State<MyAltera> {
 
   void inicializa() {
     campoCod.text = widget.jogadora.cod.toString();
+    campoIdade.text = widget.jogadora.idade.toString();
     campoNome.text = widget.jogadora.nome;
     campoPosicao.text = widget.jogadora.posicao;
   }

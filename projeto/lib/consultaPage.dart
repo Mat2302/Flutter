@@ -71,7 +71,7 @@ class _MyConsultaState extends State<MyConsulta> {
                 ),
                 title: Text(listaBusca[index].cod.toString()),
                 subtitle: Text(
-                    '${listaBusca[index].nome} - ${listaBusca[index].posicao}'),
+                    '${listaBusca[index].nome} - ${listaBusca[index].posicao} - ${listaBusca[index].idade} anos'),
                 trailing: SizedBox(
                   width: 70,
                   child: Row(

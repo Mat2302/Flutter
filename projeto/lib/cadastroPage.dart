@@ -14,10 +14,12 @@ class MyCadastro extends StatefulWidget {
 
 class _MyCadastroState extends State<MyCadastro> {
   int cod = 0;
+  int idade = 0;
   String nome = "";
   String posicao = "";
   JogadoraRepository jgrRepo = JogadoraRepository();
   TextEditingController campoCod = TextEditingController();
+  TextEditingController campoIdade = TextEditingController();
   TextEditingController campoNome = TextEditingController();
   TextEditingController campoPosicao = TextEditingController();
   GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -47,7 +49,7 @@ class _MyCadastroState extends State<MyCadastro> {
           children: [
             SizedBox(height: 50),
             Container(
-              height: 400,
+              height: 530,
               width: 300,
               padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
               decoration: BoxDecoration(
@@ -64,6 +66,8 @@ class _MyCadastroState extends State<MyCadastro> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset('img/minasLogo.png', height: 50, width: 50),
+                  SizedBox(height: 2),
                   Text("Minas Tênis Clube - Cadastro",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -81,6 +85,25 @@ class _MyCadastroState extends State<MyCadastro> {
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               labelText: 'Código:',
+                              border: InputBorder.none,
+                              filled: false),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return ("O campo deve ser preenchido!");
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 12),
+                        TextFormField(
+                          controller: campoIdade,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                              labelText: 'Idade: ',
                               border: InputBorder.none,
                               filled: false),
                           validator: (value) {
@@ -123,7 +146,8 @@ class _MyCadastroState extends State<MyCadastro> {
                             }
                             return null;
                           },
-                        )
+                        ),
+                        SizedBox(height: 12)
                       ],
                     ),
                   ),
@@ -132,13 +156,15 @@ class _MyCadastroState extends State<MyCadastro> {
                       onPressed: () {
                         if (key.currentState!.validate()) {
                           cod = int.parse(campoCod.text);
+                          idade = int.parse(campoIdade.text);
                           nome = campoNome.text;
                           posicao = campoPosicao.text;
-                          Jogadora jgr = Jogadora(cod, nome, posicao);
+                          Jogadora jgr = Jogadora(cod, idade, nome, posicao);
                           jgrRepo.adiciona(jgr);
                           jgrRepo.imprimir();
                           setState(() {
                             campoCod.clear();
+                            campoIdade.clear();
                             campoNome.clear();
                             campoPosicao.clear();
                           });
