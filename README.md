@@ -1,4 +1,4 @@
 # Flutter
 ## Sobre o Repositório
 
-Repositório criado para pequenos projetos de Flutter desenvolvidos em aula
+Repositório para armazenamento de pequenos projetos desenvolvidos em Flutter durante aula para treinamento do Framework.
